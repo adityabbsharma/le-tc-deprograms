@@ -56,10 +56,10 @@ public class TwoSum {
         System.out.println("the two indexes are " + twoSumResult[0] + " " + twoSumResult[1]);
     }
 
-    public int[] twoSum(int[] nums, int target) {
+    /* public int[] twoSum(int[] nums, int target) {
         // TakeAway from below Arrays.asList() does not work for primitive arrays..As Arrays.asList() accept generic type T. Since Java generics work only on reference types (object types), not on primitives, our above example failed.
         //Since int[] as a whole is an object it can be added as a single element:
-        /*Set<Integer> arrayAsSet = new HashSet<>(Arrays.asList(nums));*/
+        //Set<Integer> arrayAsSet = new HashSet<>(Arrays.asList(nums));
         // Solution is to use functional programming using Arrays.saveAll which takes lambda function of a Integer array as below
         //  Arrays.setAll(newIntegerArray, i -> nums[i]);
         Map<Integer, Integer> duplicateArrayElementsIndexesMap = new HashMap<>();
@@ -88,5 +88,35 @@ public class TwoSum {
         returnedValueOfTwoIndexes[0] = -1;
         returnedValueOfTwoIndexes[1] = -1;
         return returnedValueOfTwoIndexes;
+    }*/
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer,Integer> hMap = new LinkedHashMap<>();
+        int[] result = new int[2];
+        for(int i=0;i< nums.length;i++) {
+            if(hMap.containsKey(nums[i])) {
+                if(target/2 == nums[i]){
+                    result[0] = hMap.get(nums[i]);
+                    result[1] = i;
+                    return result;
+                }
+            }
+            else {
+                hMap.put(nums[i],i);
+            }
+
+        }
+//        Map.Entry<Integer, Integer> k = hMap.entrySet().stream().filter(i -> hMap.containsKey(target - i.getKey()) && target/2 != i.getKey()).findFirst().get();
+//        result[0] = hMap.get(k.getKey());
+//        result[1] = hMap.get(target - k.getKey());
+        for(Integer i: hMap.keySet()) {
+            if(hMap.containsKey(target - i) && target/2 != i) {
+                result[0] = hMap.get(i);
+                result[1] = hMap.get(target - i);
+                break;
+            }
+        }
+        return result;
+
+
     }
 }
